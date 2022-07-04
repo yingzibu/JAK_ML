@@ -5,6 +5,7 @@ raw data was handled:
   * Inactive: 0
   * Unspecifed: -1
   * Inconclusive: deleted, not in file anymore
+  
 Further, the unspecifed -1 was merged with Inactive 0 as there were much fewer inactive drugs. 
 
 After training SVM, RF, RGBoost (maybe Bert CNN, Graph based models also applicable), SHAP values were calculated to evaluate the importance of features, which could be converted to substructures of the compound. Thus could help alleviate black box in machine learning. By doing explainable ML, we could figure out which substructures could lead to positive output.   
