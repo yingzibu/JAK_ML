@@ -20,7 +20,9 @@
    
 2. Model pretraining
 
-   213,000 compounds were extracted from ChemBL and were used to pretrain CNN and RVAE. 
+   213,000 compounds were extracted from ChemBL without label and were used to pretrain CNN and RVAE. 
+   
+   compounds extracted for JAKs with different labels could be used to pretrain? 
 
 4. Model building (classification)
 
