@@ -24,8 +24,10 @@
 
 4. Model building (classification)
 
-   SVM, RF, RGBoost (using Morgan or MACCS fingerprints as input) CNN? 
-   GCN, GAT, RGCN, GVAE (using molecule graph as input) 
+   * SVM, RF, RGBoost (using Morgan or MACCS fingerprints as input) CNN? 
+   
+   * GCN, GAT, RGCN, GVAE (using molecule graph as input) 
+   
    Label: active 1, inactive 0. 
    
 5. Model building (regression)
