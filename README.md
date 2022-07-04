@@ -1,12 +1,18 @@
 # JAK_ML
-Data were extracted from pubchem, bindingDB, and ChemBL. Aim is to build separate model for JAK1, JAK2, JAK3, and TYK2 to predict inhibitors.
+Data were extracted from pubchem, bindingDB, and ChemBL as csv files. Empty files deleted. Aim is to build separate model for JAK1, JAK2, JAK3, and TYK2 to predict inhibitors.
 raw data was handled: 
   * Active: 1
   * Inactive: 0
   * Unspecifed: -1
   * Inconclusive: deleted, not in file anymore
-  
+
+CID (Compound ID) was replaced as smiles. 
+
 Further, the unspecifed -1 was merged with Inactive 0 as there were much fewer inactive drugs. 
+
+Same assay data were merged into a large csv file. 
+
+Since data were extracted from bunch of assays, delete duplicate is needed 
 
 After training SVM, RF, RGBoost (maybe Bert CNN, Graph based models also applicable), SHAP values were calculated to evaluate the importance of features, which could be converted to substructures of the compound. Thus could help alleviate black box in machine learning. By doing explainable ML, we could figure out which substructures could lead to positive output.   
 
