@@ -20,13 +20,13 @@
    
 2. Model pretraining
 
-   213,000 compounds were extracted from ChemBL without label and were used to pretrain CNN and GVAE. 
-   
-   compounds extracted for JAKs with different labels could be used to pretrain? 
-
+   213,000 compounds were extracted from ChemBL without label and were used to pretrain CNN, chemBERTa and GVAE. 
+  
 4. Model building (classification)
 
-   * SVM, KNN, RF, RGBoost (using Morgan or MACCS fingerprints as input) CNN? 
+   * SVM, KNN, RF, RGBoost (using MACCS fingerprints as input)
+   
+   * CNN, chemBERTa (using SMILES as input)
    
    * GCN, GAT, RGCN, GVAE (using molecule graph as input) 
    
