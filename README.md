@@ -1,4 +1,4 @@
-# JAK_ML
+# New JAK inhibitor discovery based on machine learning
 
 1. Data processing
 
