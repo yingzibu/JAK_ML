@@ -32,6 +32,8 @@
    
    Label: active 1, inactive 0. 
    
+Future work: 
+   
 5. Model building (regression)
 
    Feature vs IC50
