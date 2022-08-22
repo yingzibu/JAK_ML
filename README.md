@@ -33,7 +33,7 @@
    Label: active 1, inactive 0. 
    
 
-# App for JAK inhibition prediction: 
+## App for JAK inhibition prediction: 
 
 
 <!-- [![Streamlit App](streamlit_logo.png)](https://yingzibu-jak-app-version-2-hello-dym1uj.streamlitapp.com/JAK) -->
@@ -49,7 +49,7 @@
 ![streamlit-hello-2022-08-13-03-08-23.gif](streamlit-hello-2022-08-13-03-08-23.gif)
 
    
-Future work: 
+## Future work: 
    
 5. Model building (regression)
 
