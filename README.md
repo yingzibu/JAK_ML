@@ -32,6 +32,23 @@
    
    Label: active 1, inactive 0. 
    
+
+# App for JAK inhibition prediction: 
+
+
+<!-- [![Streamlit App](streamlit_logo.png)](https://yingzibu-jak-app-version-2-hello-dym1uj.streamlitapp.com/JAK) -->
+
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://yingzibu-jak-app-version-2-hello-dym1uj.streamlitapp.com/JAK)
+
+<!-- Once you deploy your app, you can embed this badge right into your GitHub readme.md as follows:
+
+```markdown
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://share.streamlit.io/yourGitHubName/yourRepo/yourApp/)
+```
+ -->
+![streamlit-hello-2022-08-13-03-08-23.gif](streamlit-hello-2022-08-13-03-08-23.gif)
+
+   
 Future work: 
    
 5. Model building (regression)
