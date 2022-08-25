@@ -35,6 +35,9 @@
 
 ## App for JAK inhibition prediction: 
 
+### Compatible with Edge, Chrome, and Safari, may encounter sidebar problem on Firefox.
+
+
 
 <!-- [![Streamlit App](streamlit_logo.png)](https://yingzibu-jak-app-version-2-hello-dym1uj.streamlitapp.com/JAK) -->
 
