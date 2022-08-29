@@ -35,7 +35,7 @@
 
 ## App for JAK inhibition prediction: 
 
-### Compatible with Edge, Chrome, and Safari, may encounter sidebar problem on Firefox.
+#### Compatible with Edge, Chrome, and Safari, may encounter sidebar problem on Firefox.
 
 
 
