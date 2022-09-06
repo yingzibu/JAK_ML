@@ -37,6 +37,7 @@
 
 #### Compatible with Edge, Chrome, and Safari, may encounter sidebar problem on Firefox.
 
+Since chemBERTa models are large, it may take some time to open the web application directly through streamlit cloud. Please wait patiently till the web page is loaded.
 
 
 <!-- [![Streamlit App](streamlit_logo.png)](https://yingzibu-jak-app-final-2-hello-s2gl4s.streamlitapp.com/) -->
