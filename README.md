@@ -42,7 +42,7 @@ Since chemBERTa models are large, it may take some time to open the web applicat
 
 <!-- [![Streamlit App](streamlit_logo.png)](https://yingzibu-jak-app-final-2-hello-s2gl4s.streamlitapp.com/) -->
 
-[![Streamlit App]([https://static.streamlit.io/badges/streamlit_badge_black_white.svg)][https://yingzibu-jak-app-final-2-hello-3cjdev.streamlit.app)](https://yingzibu-jak-app-final-2-hello-3cjdev.streamlit.app)
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://yingzibu-jak-app-final-2-hello-3cjdev.streamlit.app)
 
 <!-- Once you deploy your app, you can embed this badge right into your GitHub readme.md as follows:
 
