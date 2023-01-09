@@ -2,7 +2,7 @@
 
 1. Data processing
 
-   Data were extracted from pubchem, bindingDB, and ChemBL as csv files. Empty files deleted. Aim is to build separate model for JAK1, JAK2, JAK3, and TYK2 to predict inhibitors.
+   Data were extracted from Pubchem, BindingDB, and ChEMBL as csv files. Empty files deleted. Aim is to build separate model for JAK1, JAK2, JAK3, and TYK2 to predict inhibitors.
    raw data was handled: 
      * Active: 1; IC50 < 10uM
      * Inactive: 0; IC50 > 10uM
