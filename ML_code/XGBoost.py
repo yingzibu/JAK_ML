@@ -35,7 +35,9 @@ for enzyme in ['JAK1', 'JAK2', 'JAK3', 'TYK2']:
 
     model = xgb.XGBClassifier()
     clf = GridSearchCV(estimator=model, param_grid=params, scoring='accuracy', verbose=1)
-    clf.fit(X, y)
+    test_size = 0.2
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = test_size, random_state=42)
+    clf.fit(X_train, y_train)
     print('Best estimators:', clf.best_params_)
     file = 'XGBoost_params/XGBoost_' + enzyme + '.pickle'
     with open(file, 'wb') as f:
@@ -44,10 +46,11 @@ for enzyme in ['JAK1', 'JAK2', 'JAK3', 'TYK2']:
     with open(file, 'rb') as f:
         tuned_params = pickle.load(f)
 
-    test_size = 0.2
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = test_size, random_state=42)
+    
+    
     model = xgb.XGBClassifier(**tuned_params)
     model.fit(X_train, y_train)
+    X_val, X_test, y_val, y_test = train_test_split(X_test, y_test, test_size=0.5, random_state=42)
     y_pred = model.predict(X_test)
     y_prob = model.predict_proba(X_test)
     evaluate(y_test, y_pred, y_prob)
