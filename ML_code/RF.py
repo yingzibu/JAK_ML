@@ -12,7 +12,7 @@ from sklearn.model_selection import GridSearchCV, RandomizedSearchCV
 import pickle
 from sklearn import metrics
 
-def RF_single(X, y, n_estimator, enzyme, test_size=0.2):
+def RF_single(X, y, n_estimator, enzyme, test_size):
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = test_size, random_state=42)
     RF = RandomForestClassifier(n_estimators=n_estimator)
     RF.fit(X_train, y_train)
@@ -27,9 +27,3 @@ def RF_single(X, y, n_estimator, enzyme, test_size=0.2):
     model_path = 'model/'
     modelname = model_path + filename
     pickle.dump(RF, open(modelname, 'wb'))
-
-RF_estimator = [53, 91, 48, 13]
-enzymes = ['JAK1', 'JAK2', 'JAK3', 'TYK2']
-for enzyme, estimator in zip(enzymes, RF_estimator):
-    X, y = load_data(enzyme)
-    RF_single(X, y, estimator, enzyme, test_size=0.2)
