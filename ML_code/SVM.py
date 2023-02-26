@@ -21,14 +21,16 @@ def SVM_batch(enzyme):
             model = SVC(kernel=k, degree=8)
         else:
             model = SVC(kernel=k)
-        scores = cross_val_score(model, X, y, cv=5, scoring='accuracy')
-        print('SVM: ',k, 'Scores: ', scores.mean())
+        
         X_train, X_test, y_train, y_test = train_test_split(X, y, 
         random_state=42, test_size = 0.2)
+        scores = cross_val_score(model, X_train, y_train, cv=5, scoring='accuracy')
+        print('SVM: ',k, 'Scores: ', scores.mean())
         model.probability=True
         model.fit(X_train, y_train)
     #     y_pred = model.predict(X_test)
-        
+        X_val, X_test, y_val, y_test = train_test_split(X_test, y_test, 
+        random_state=42, test_size = 0.5)
         y_prob = model.predict_proba(X_test)
         proba = y_prob[:, 1]
         y_pred = get_preds(0.5, proba)
