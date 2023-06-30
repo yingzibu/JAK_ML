@@ -1,3 +1,5 @@
+from function import *
+from jak_dataset import *
 from sklearn.neighbors import KNeighborsClassifier
 from ast import increment_lineno
 import pandas as pd
@@ -5,16 +7,24 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split, cross_val_score
 from sklearn.metrics import classification_report, confusion_matrix, average_precision_score, roc_auc_score
-from function import evaluate, load_tpr_fpr, save_tpr_fpr
-from function import load_model, test, smile_list_to_MACCS, get_preds
 import pickle
+import os
 
-global header
 header = ['bit'+str(i) for i in range(167)]
+# import os
+# def create_path(path):
+#     isExist = os.path.exists(path)
+#     print(path, ' folder is in directory: ', isExist)
+#     if not isExist:
+#         os.makedirs(path)
+#         print(path, " is created!")
 
-def KNN_rough_tune(enzyme = 'JAK1'):
-    path = 'data/' + enzyme + '_' + 'MACCS.csv'
-    data = pd.read_csv(path)
+model_path = "model_0.25nM/"
+create_path(model_path)
+
+
+def KNN_rough_tune(data, enzyme):
+    # global header
     header = ['bit'+str(i) for i in range(167)]
     X = data[header]
     y = data['Activity']
@@ -35,7 +45,16 @@ def KNN_rough_tune(enzyme = 'JAK1'):
     plt.ylabel('5-fold cross-validated accuracy')
     title = enzyme + ' KNN accuracy with neighbors ' + 'rough tune'
     plt.title(title)
-    plt.savefig('figures/' + enzyme + '_rough_tune.png')
+    path = "knn_figures/"
+    # Check whether the specified path exists or not
+    isExist = os.path.exists(path)
+    #printing if the path exists or not
+    print(path, ' folder is in directory: ', isExist)
+    if not isExist:
+    # Create a new directory because it does not exist
+        os.makedirs(path)
+        print(path, " is created!")
+    plt.savefig(path + enzyme + '_rough_tune.png')
     plt.close()
     print('Rough tune max k_scores: ')
     print(max(k_scores))
@@ -52,9 +71,7 @@ def KNN_rough_tune(enzyme = 'JAK1'):
     print(' max accuracy: ', max_accuracy)
     return neighbors_rough[0]
 
-def KNN_fine_tune(enzyme='JAK1', rough_neighbor=10):
-    path = 'data/' + enzyme + '_' + 'MACCS.csv'
-    data = pd.read_csv(path)
+def KNN_fine_tune(data, enzyme='JAK1', rough_neighbor=10):
     header = ['bit'+str(i) for i in range(167)]
     X = data[header]
     y = data['Activity']
@@ -69,9 +86,7 @@ def KNN_fine_tune(enzyme='JAK1', rough_neighbor=10):
         scores = cross_val_score(knn, X, y, cv=5, scoring='accuracy')
         k_scores.append(scores.mean())
     k_list = [i for i in k_range]
-    
-    print('Fine tune max k_scores: ')
-    print(max(k_scores))
+
     max_accuracy = max(k_scores)
     neighbors_rough = []
     for i, j in zip(k_list, k_scores):
@@ -81,60 +96,40 @@ def KNN_fine_tune(enzyme='JAK1', rough_neighbor=10):
     plt.plot(k_list, k_scores)
     plt.xlabel('Value of neighbor k for KNN')
     plt.ylabel('5-fold cross-validated accuracy')
-    title = enzyme + ' KNN accuracy with neighbors ' + 'fine tune, best_neighbor = ' + str(neighbors_rough[0])
-    plt.title(title)
-    plt.savefig('figures/' + enzyme + '_fine_tune.png')
+    plt.title(f'{enzyme} KNN accuracy with neighbors fine tune, best_neighbor = {neighbors_rough[0]}')
+
+    path = "knn_figures/"
+    isExist = os.path.exists(path) #printing if the path exists or not
+    print(path, ' folder is in directory: ', isExist)
+    if not isExist: # Create a new directory because it does not exist
+        os.makedirs(path)
+        print(path, " is created!")
+
+    plt.savefig(path + enzyme + '_fine_tune.png')
 
     print('neighbors_fine for ', enzyme, ' : ', neighbors_rough)
     print('max accuracy: ', max_accuracy)
     return neighbors_rough[0]
 
-# best_neighbors = []
-# for enzyme in ['JAK1', 'JAK2', 'JAK3', 'TYK2']:
-#     neighbor = KNN_rough_tune(enzyme)
-#     best_neighbor = KNN_fine_tune(enzyme, neighbor)
-#     best_neighbors.append(best_neighbor)
-
-enzymes = ['JAK1', 'JAK2', 'JAK3', 'TYK2']
-best_neighbors = [1,1,1,3]
-
-for i in range(4): 
-    enzyme = enzymes[i]
-    best_neighbor = best_neighbors[i]
-    file = 'data/' + enzyme + '_MACCS.csv'
-    data = pd.read_csv(file)
-    X = data[header]
-    y = data['Activity']
-    knn = KNeighborsClassifier(n_neighbors=best_neighbor)
-    X_train, X_test, y_train, y_test= train_test_split(X, y, 
-                                      test_size = 0.2, random_state=42)
+data_path = 'Data_MTATFP/data_label_0.25/'
+for enzyme in ['JAK1', 'JAK2', 'JAK3', 'TYK2']:
     
-    knn.fit(X_train, y_train) 
-    knn.probability=True  
-    y_pred = knn.predict(X_test)
-    y_prob = knn.predict_proba(X_test)
+    data_partial = pd.read_csv(data_path + enzyme + '_partial.csv')
+    data_test = pd.read_csv(data_path + enzyme + '_test.csv')
+    
+    data = JAK_dataset(data_partial['SMILES'], data_partial['Activity'])
+    data_test_jak = JAK_dataset(data_test['SMILES'], data_test['Activity'])
+
+    top_k = KNN_rough_tune(data.get_df(), enzyme)
+    final_top_k = KNN_fine_tune(data.get_df(), enzyme, top_k)
+    print(enzyme, ', best neighbor is ', final_top_k)
+    
+    knn = KNeighborsClassifier(n_neighbors=final_top_k)
+    knn.fit(data.get_MACCS(), data.get_activity())
+    knn.probability=True
+    y_pred = knn.predict(data_test_jak.get_MACCS())
+    y_prob = knn.predict_proba(data_test_jak.get_MACCS())
     print('for ', enzyme)
-    evaluate(y_test, y_pred, y_prob)
-    filename = 'model/knn_' + enzyme
+    evaluate(data_test_jak.get_activity(), y_pred, y_prob)
+    filename = model_path + 'knn_' + enzyme + '.pkl'
     pickle.dump(knn, open(filename, 'wb'))
-
-    roc_values = []
-    
-    for thresh in np.linspace(0,1,10000):
-        preds = get_preds(thresh, y_prob[:, 1])
-        tn, fp, fn, tp = confusion_matrix(y_test, preds).ravel()
-        tpr = tp /(tp+fn)
-        fpr = fp/(fp+tn)
-        roc_values.append([tpr, fpr])
-    tpr_values, fpr_values = zip(*roc_values)
-    save_tpr_fpr('knn', enzyme, tpr_values, fpr_values)
-
-
-
-
-
-
-
-
-
-
